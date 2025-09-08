@@ -2,12 +2,11 @@
   "name": "web_project_around_express",
   "version": "1.0.0",
   "description": "\"backend project around Eu\"",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "lint": "npx eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon src/app.js"
   },
   "author": "\"Jesus Hernandez Lopez\"",
   "license": "ISC",
@@ -18,6 +17,8 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.0"
   }
 }

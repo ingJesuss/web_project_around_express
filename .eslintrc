@@ -8,6 +8,8 @@
     "no-console": "off",
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "linebreak-style": "off",
-   
+    "consistent-return": "off"
+
+
   }
 }
