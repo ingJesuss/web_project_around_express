@@ -1,22 +1,19 @@
-const router = require('express').Router();
-const fs = require('fs').promises;
-const path = require('path');
+const express = require('express');
 
-// Creamos la ruta para obtener todas las tarjetas
-router.get('/', (req, res) => {
-  const cardFilePah = path.join(__dirname, '..', 'data', 'cards.json');
+const router = express.Router();
 
-  fs.readFile(cardFilePah, { encoding: 'utf8' })
-    .then((data) => {
-      const cards = JSON.parse(data);
-      res.send(cards);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error al leer el archivo cards',
-        error: err.message,
-      });
-    });
-});
+const {
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
+} = require('../controllers/cards.controller');
+
+router.get('/', getCards);
+router.post('/', createCard);
+router.delete('/:cardId', deleteCard);
+router.put('/:cardId/like', likeCard);
+router.delete('/:cardId/dislike', dislikeCard);
 
 module.exports = router;

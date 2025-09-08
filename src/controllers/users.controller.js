@@ -1,4 +1,4 @@
-const User = require('../models/Users');
+const User = require('../models/User');
 
 const getUsers = (req, res) => {
   User.find({})
@@ -44,8 +44,61 @@ const createUser = (req, res) => {
     });
 };
 
+// actualizar perfil
+const updateProfile = (req, res) => {
+  const { name, about } = req.body;
+  const userId = req.user._id;
+
+  User.findByIdAndUpdate(
+    userId,
+    { name, about },
+    { new: true, runValidators: true },
+  )
+    .orFail(new Error('Usuario no encontrado'))
+    .then((user) => {
+      res.statuis(200).json(user);
+    })
+    .catch((err) => {
+      if (err.message === 'Usuario no encontrado') {
+        return res.status(404).send({ message: err.message });
+      }
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        return res.status(400).send({ message: 'Datos de usuario inválidos' });
+      }
+      res.status(500).send({ message: 'Error en el servidor' });
+    });
+};
+
+// actualizar avatar
+
+const updateAvatar = (req, res) => {
+  const { avatar } = req.body;
+  const userId = req.user._id;
+
+  User.findByIdAndUpdate(
+    userId,
+    { avatar },
+    { new: true, runValidators: true },
+  )
+    .orFail(new Error('Usuario no encontrado'))
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((err) => {
+      if (err.message === 'Usuario no encontrado') {
+        return res.status(404).send({ message: err.message });
+      }
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        return res.status(400).send({ message: 'URL de avatar inválida' });
+      }
+      res.status(500).send({ message: 'Error en el servidor' });
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   createUser,
+  updateProfile,
+  updateAvatar,
 };
